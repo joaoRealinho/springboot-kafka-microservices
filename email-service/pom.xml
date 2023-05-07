@@ -36,13 +36,19 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>base-domains</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>base-domains</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/../base-domains/target/base-domains-0.0.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.github.joaoRealinho</groupId>
+			<artifactId>springboot-kafka-microservices</artifactId>
+			<version>master-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
@@ -71,6 +77,11 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>

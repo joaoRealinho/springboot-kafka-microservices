@@ -1,0 +1,9 @@
+services:
+  email:
+    FROM: openjdk:17-jdk-alpine
+    VOLUME: /tmp
+    EXPOSE: 8082
+    RUN: mvn install
+    ARG JAR_FILE: target/spring-boot-docker.jar
+    ADD: ${JAR_FILE} app.jar
+    ENTRYPOINT: [ "mvn spring-boot:build-image ", java","-jar","/app.jar" ]
