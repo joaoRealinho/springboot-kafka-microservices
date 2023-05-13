@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-alpine
 WORKDIR /build
 EXPOSE 8082
-ADD: ${JAR_FILE} app.jar
+COPY target/*.jar /build/email-service.jar
 CMD java -jar email-service.jar

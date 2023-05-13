@@ -1,9 +1,70 @@
+version: "2"
 services:
-  email:
-    FROM: openjdk:17-jdk-alpine
-    VOLUME: /tmp
-    EXPOSE: 8082
-    RUN: mvn install
-    ARG JAR_FILE: target/spring-boot-docker.jar
-    ADD: ${JAR_FILE} app.jar
-    ENTRYPOINT: [ "mvn spring-boot:build-image ", java","-jar","/app.jar" ]
+  zookeeper:
+    image: 'bitnami/zookeeper:3'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - app
+
+  kafka:
+    image: 'bitnami/kafka:2'
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
+    networks:
+      - app
+
+  order: # User service corresponds to Dockerfile path
+    build:
+      context: ./order-service
+    ports:
+      - '8080:8080'
+    restart: always
+    container_name: order-service
+    hostname: order-service
+    depends_on:
+      - zookeeper
+      - kafka
+    networks:
+      - app
+
+  stock: # User service corresponds to Dockerfile path
+    build:
+      context: ./stock-service
+    ports:
+      - '8081:8081'
+    restart: always
+    container_name: stock-service
+    hostname: stock-service
+    depends_on:
+      - zookeeper
+      - kafka
+    networks:
+      - app
+
+  email: # User service corresponds to Dockerfile path
+    build:
+      context: ./email-service
+    ports:
+      - '8082:8082'
+    restart: always
+    container_name: email-service
+    hostname: email-service
+    depends_on:
+      - zookeeper
+      - kafka
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

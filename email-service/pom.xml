@@ -8,9 +8,10 @@
 		<version>3.1.0-M2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.example</groupId>
 	<artifactId>email-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>email-service</name>
 	<description>Email Service</description>
 	<properties>
@@ -26,29 +27,29 @@
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.example</groupId>
-			<artifactId>base-domains</artifactId>
-			<version>0.0.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/../base-domains/target/base-domains-0.0.1.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.github.joaoRealinho</groupId>
-			<artifactId>springboot-kafka-microservices</artifactId>
-			<version>master-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>base-domains</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>
@@ -62,13 +63,22 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
-	<repositories>
+
+    <repositories>
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
@@ -77,11 +87,6 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
